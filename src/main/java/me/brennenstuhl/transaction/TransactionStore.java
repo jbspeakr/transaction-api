@@ -5,16 +5,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class TransactionStore {
 
   @Autowired
   TransactionRepository transactionRepository;
+
 
   public Optional<Transaction> load(final Long transactionId) {
     final Transaction transaction = transactionRepository.findOne(transactionId);
@@ -30,6 +31,17 @@ public class TransactionStore {
     return StreamSupport.stream(transactions.spliterator(), false)
         .filter(transaction -> transaction.getType().equals(type))
         .map(Transaction::getTransactionId)
-        .collect(Collectors.toList());
+        .collect(toList());
+  }
+
+  public Double sumLinkedTransactions(final Long transactionId){
+    final Transaction transaction = transactionRepository.findOne(transactionId);
+    if(transaction == null) {
+      return 0.;
+    }
+    if(transaction.getParentId() != null){
+      return transaction.getAmount() + sumLinkedTransactions(transaction.getParentId());
+    }
+    return transaction.getAmount();
   }
 }

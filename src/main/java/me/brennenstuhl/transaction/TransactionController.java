@@ -50,4 +50,9 @@ public class TransactionController {
     return new ResponseEntity<>(transactionIDs, HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/sum/{transactionId}", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> putTransaction(@PathVariable Long transactionId) {
+    final Double sum = transactionStore.sumLinkedTransactions(transactionId);
+    return new ResponseEntity<>("{\"sum\":" + sum + "}", HttpStatus.OK);
+  }
 }

@@ -27,6 +27,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class TransactionControllerTest {
   private static final Long NOT_EXISTING_TRANSACTION_ID = 123L;
   private static final String TEST_TYPE = "testType";
+  public static final double DEFAULT_SUM = 22.0;
   private static Transaction defaultTransaction = new Transaction(1L, 1.0, "test");
   private MockMvcRequestSpecification apiRequest;
 
@@ -88,6 +89,15 @@ public class TransactionControllerTest {
         .body("", emptyIterable());
   }
 
+  @Test
+  public void shouldReturn() throws Exception {
+    apiRequest.config(newConfig().jsonConfig(jsonConfig().numberReturnType(DOUBLE))).when()
+        .get("/transactionservice/sum/" + defaultTransaction.getTransactionId())
+        .then()
+        .statusCode(OK.value())
+        .body("sum", equalTo(DEFAULT_SUM));
+  }
+
   private void givenRespondingTransactionStore() {
     when(transactionStore.load(defaultTransaction.getTransactionId()))
         .thenReturn(Optional.of(defaultTransaction));
@@ -97,5 +107,7 @@ public class TransactionControllerTest {
         .thenReturn(newArrayList(defaultTransaction.getTransactionId()));
     when(transactionStore.loadByType(TEST_TYPE))
         .thenReturn(emptyList());
+    when(transactionStore.sumLinkedTransactions(defaultTransaction.getTransactionId()))
+        .thenReturn(DEFAULT_SUM);
   }
 }
