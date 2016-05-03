@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping(value = "/transactionservice")
 public class TransactionController {
-  private  static final String STATUS_OK_RESPONSE_BODY = "\"status\": \"ok\"";
+  private static final String STATUS_OK_RESPONSE_BODY = "{\"status\": \"ok\"}";
 
   @Autowired
   private TransactionStore transactionStore;
