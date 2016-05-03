@@ -10,7 +10,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -38,8 +40,28 @@ public class TransactionControllerIT {
   }
 
   @Test
-  public void shouldReturnReturnTransactionInformation() throws Exception {
+  public void getTransactionByIdEndpointShouldBeAccessible() throws Exception {
     mockMvc.perform(get("/transactionservice/transaction/" + defaultTransaction.getTransactionId()))
+        .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  public void putTransactionEndpointShouldBeAccessible() throws Exception {
+    mockMvc.perform(put("/transactionservice/transaction/" + defaultTransaction.getTransactionId())
+        .content("{ \"amount\": 5000, \"type\": \"cars\" }")
+        .contentType(APPLICATION_JSON))
+        .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  public void getSumOfTransactionAmountsByIdEndpointShouldBeAccessible() throws Exception {
+    mockMvc.perform(get("/transactionservice/sum/" + defaultTransaction.getTransactionId()))
+        .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  public void getTransactionIdsByTypeEndpointShouldBeAccessible() throws Exception {
+    mockMvc.perform(get("/transactionservice/types/" + defaultTransaction.getType()))
         .andExpect(status().is2xxSuccessful());
   }
 }
