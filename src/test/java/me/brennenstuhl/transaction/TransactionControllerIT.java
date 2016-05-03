@@ -41,13 +41,13 @@ public class TransactionControllerIT {
 
   @Test
   public void getTransactionByIdEndpointShouldBeAccessible() throws Exception {
-    mockMvc.perform(get("/transactionservice/transaction/" + defaultTransaction.getTransactionId()))
+    mockMvc.perform(get("/transactionservice/transaction/" + defaultTransaction.getId()))
         .andExpect(status().is2xxSuccessful());
   }
 
   @Test
   public void putTransactionEndpointShouldBeAccessible() throws Exception {
-    mockMvc.perform(put("/transactionservice/transaction/" + defaultTransaction.getTransactionId())
+    mockMvc.perform(put("/transactionservice/transaction/" + defaultTransaction.getId())
         .content("{ \"amount\": 5000, \"type\": \"cars\" }")
         .contentType(APPLICATION_JSON))
         .andExpect(status().is2xxSuccessful());
@@ -55,7 +55,7 @@ public class TransactionControllerIT {
 
   @Test
   public void getSumOfTransactionAmountsByIdEndpointShouldBeAccessible() throws Exception {
-    mockMvc.perform(get("/transactionservice/sum/" + defaultTransaction.getTransactionId()))
+    mockMvc.perform(get("/transactionservice/sum/" + defaultTransaction.getId()))
         .andExpect(status().is2xxSuccessful());
   }
 

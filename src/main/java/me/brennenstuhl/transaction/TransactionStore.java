@@ -30,7 +30,7 @@ public class TransactionStore {
     final Iterable<Transaction> transactions = transactionRepository.findAll();
     return StreamSupport.stream(transactions.spliterator(), false)
         .filter(transaction -> transaction.getType().equals(type))
-        .map(Transaction::getTransactionId)
+        .map(Transaction::getId)
         .collect(toList());
   }
 

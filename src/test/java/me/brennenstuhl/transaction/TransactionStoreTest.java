@@ -31,11 +31,11 @@ public class TransactionStoreTest {
   public void setUp() throws Exception {
     parentTransaction = new Transaction(1L, 1.0, "test");
     childTransaction = new Transaction(2L, 11.0, "car");
-    childTransaction.setParentId(parentTransaction.getTransactionId());
+    childTransaction.setParentId(parentTransaction.getId());
 
-    when(transactionRepository.findOne(parentTransaction.getTransactionId()))
+    when(transactionRepository.findOne(parentTransaction.getId()))
         .thenReturn(parentTransaction);
-    when(transactionRepository.findOne(childTransaction.getTransactionId()))
+    when(transactionRepository.findOne(childTransaction.getId()))
         .thenReturn(childTransaction);
     when(transactionRepository.findAll())
         .thenReturn(asList(parentTransaction, childTransaction));
@@ -44,8 +44,8 @@ public class TransactionStoreTest {
   @Test
   public void shouldFindOnlyTransactionsWithCorrespondingType() throws Exception {
     final List<Long> transactionIds = transactionStore.loadByType(parentTransaction.getType());
-    assertThat(transactionIds, hasItem(parentTransaction.getTransactionId()));
-    assertThat(transactionIds, not(hasItem(childTransaction.getTransactionId())));
+    assertThat(transactionIds, hasItem(parentTransaction.getId()));
+    assertThat(transactionIds, not(hasItem(childTransaction.getId())));
   }
 
   @Test
@@ -56,13 +56,13 @@ public class TransactionStoreTest {
 
   @Test
   public void shouldReturnInitialAmountIfNoParentAvailable() throws Exception {
-    final Double sum = transactionStore.sumLinkedTransactions(parentTransaction.getTransactionId());
+    final Double sum = transactionStore.sumLinkedTransactions(parentTransaction.getId());
     assertThat(sum, is(parentTransaction.getAmount()));
   }
 
   @Test
   public void shouldSumUpAmountsOfChildAndLinkedParents() throws Exception {
-    final Double sum = transactionStore.sumLinkedTransactions(childTransaction.getTransactionId());
+    final Double sum = transactionStore.sumLinkedTransactions(childTransaction.getId());
     assertThat(sum, is(childTransaction.getAmount() + parentTransaction.getAmount()));
   }
 }

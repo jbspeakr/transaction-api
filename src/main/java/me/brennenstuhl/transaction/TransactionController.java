@@ -39,7 +39,7 @@ public class TransactionController {
 
   @RequestMapping(value = "/transaction/{transactionId}", method = RequestMethod.PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<?> putTransaction(@PathVariable final Long transactionId, @RequestBody Transaction transaction) {
-    transaction.setTransactionId(transactionId);
+    transaction.setId(transactionId);
     transactionStore.save(transaction);
     return new ResponseEntity<>(STATUS_OK_RESPONSE_BODY, HttpStatus.OK);
   }

@@ -41,22 +41,22 @@ public class TransactionControllerTest {
   }
 
   private void givenRespondingTransactionStore() {
-    when(transactionStore.load(defaultTransaction.getTransactionId()))
+    when(transactionStore.load(defaultTransaction.getId()))
         .thenReturn(Optional.of(defaultTransaction));
     when(transactionStore.load(NOT_EXISTING_TRANSACTION_ID))
         .thenReturn(Optional.empty());
     when(transactionStore.loadByType(defaultTransaction.getType()))
-        .thenReturn(singletonList(defaultTransaction.getTransactionId()));
+        .thenReturn(singletonList(defaultTransaction.getId()));
     when(transactionStore.loadByType(TEST_TYPE))
         .thenReturn(emptyList());
-    when(transactionStore.sumLinkedTransactions(defaultTransaction.getTransactionId()))
+    when(transactionStore.sumLinkedTransactions(defaultTransaction.getId()))
         .thenReturn(DEFAULT_SUM);
   }
 
   @Test
   public void shouldReturnTransactionIfAvailable() throws Exception {
     apiRequest.config(newConfig().jsonConfig(jsonConfig().numberReturnType(DOUBLE))).when()
-        .get("/transactionservice/transaction/" + defaultTransaction.getTransactionId())
+        .get("/transactionservice/transaction/" + defaultTransaction.getId())
         .then()
         .statusCode(OK.value())
         .body("type", equalTo(defaultTransaction.getType()))
@@ -105,7 +105,7 @@ public class TransactionControllerTest {
   @Test
   public void shouldReturn() throws Exception {
     apiRequest.config(newConfig().jsonConfig(jsonConfig().numberReturnType(DOUBLE))).when()
-        .get("/transactionservice/sum/" + defaultTransaction.getTransactionId())
+        .get("/transactionservice/sum/" + defaultTransaction.getId())
         .then()
         .statusCode(OK.value())
         .body("sum", equalTo(DEFAULT_SUM));

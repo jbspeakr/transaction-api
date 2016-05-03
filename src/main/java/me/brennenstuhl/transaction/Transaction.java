@@ -12,7 +12,11 @@ import org.springframework.data.keyvalue.annotation.KeySpace;
 @Data
 @RequiredArgsConstructor
 public class Transaction {
-  private @NonNull @Id @JsonIgnore Long transactionId;
+  private
+  @NonNull
+  @Id
+  @JsonIgnore
+  Long id;
   private @NonNull @JsonProperty("amount") Double amount;
   private @NonNull @JsonProperty("type") String type;
   private @JsonProperty("parent_id") Long parentId;
