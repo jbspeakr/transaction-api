@@ -9,7 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionStoreTest {
-  public static final long NON_EXISTING_TRANSACTION_ID = 123L;
+  private static final long NON_EXISTING_TRANSACTION_ID = 123L;
   private Transaction parentTransaction;
   private Transaction childTransaction;
 
@@ -38,7 +38,7 @@ public class TransactionStoreTest {
     when(transactionRepository.findOne(childTransaction.getTransactionId()))
         .thenReturn(childTransaction);
     when(transactionRepository.findAll())
-        .thenReturn(newArrayList(parentTransaction,childTransaction));
+        .thenReturn(asList(parentTransaction, childTransaction));
   }
 
   @Test

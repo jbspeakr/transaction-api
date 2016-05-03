@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = TransactionApiApplication.class)
+@SpringApplicationConfiguration(classes = TransactionApplication.class)
 @WebAppConfiguration
 public class TransactionControllerIT {
   private static Transaction defaultTransaction = new Transaction(1L, 1.0, "test");
@@ -33,15 +33,13 @@ public class TransactionControllerIT {
     givenStoredTransaction();
   }
 
+  private void givenStoredTransaction() {
+    transactionStore.save(defaultTransaction);
+  }
+
   @Test
   public void shouldReturnReturnTransactionInformation() throws Exception {
     mockMvc.perform(get("/transactionservice/transaction/" + defaultTransaction.getTransactionId()))
         .andExpect(status().is2xxSuccessful());
-
-
-  }
-
-  private void givenStoredTransaction() {
-    transactionStore.save(defaultTransaction);
   }
 }
