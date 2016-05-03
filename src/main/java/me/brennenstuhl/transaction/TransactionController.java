@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -41,6 +42,12 @@ public class TransactionController {
     transaction.setTransactionId(transactionId);
     transactionStore.save(transaction);
     return new ResponseEntity<>(STATUS_OK_RESPONSE_BODY, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/types/{type}", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> putTransaction(@PathVariable final String type) {
+    final List<Long> transactionIDs = transactionStore.loadByType(type);
+    return new ResponseEntity<>(transactionIDs, HttpStatus.OK);
   }
 
 }
