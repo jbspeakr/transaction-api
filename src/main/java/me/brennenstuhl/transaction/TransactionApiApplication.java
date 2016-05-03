@@ -22,9 +22,9 @@ public class TransactionApiApplication {
 
 	@PostConstruct
 	public void init() {
-		transactionRepository.save(new Transaction(5000.0, "cars"));
-		transactionRepository.save(new Transaction(10000.0, "shopping"));
-		transactionRepository.save(new Transaction(7500.0, "cars"));
+		transactionRepository.save(new Transaction(1L, 5000.0, "cars"));
+		transactionRepository.save(new Transaction(2L, 10000.0, "shopping"));
+		transactionRepository.save(new Transaction(3L, 7500.0, "cars"));
 
 		System.out.println(transactionRepository.findAll());
 	}
