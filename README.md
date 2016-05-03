@@ -12,12 +12,12 @@ This demo application provides a RESTful web service that stores some transactio
 * ...
 
 ## Some notes:
-* this application is just a private demo. it does some weird stuff, you probably don't want in your applications:
-** (a) instead of using a proper (e.g. SQL) database this app performs query operations in code, using Java8 streams
-** (b) instead of using a more suitable data structure (something similar to a Linked-List) this app uses recursion to solve child-parent-associations
-** (c) it does not provide an state-of-the-art HATEOAS API, but defines less-mature endpoints
-** (d) there is no built-in API versioning
-** ...
+This application is just a private demo. it does some weird stuff, you probably don't want in your applications:
+* (a) instead of using a proper (e.g. SQL) database this app performs query operations in code, using Java8 streams
+* (b) instead of using a more suitable data structure (something similar to a Linked-List) this app uses recursion to solve child-parent-associations
+* (c) it does not provide an state-of-the-art HATEOAS API, but defines less-mature endpoints
+* (d) there is no built-in API versioning
+* ...
 
 ## Example usage:
 ```
