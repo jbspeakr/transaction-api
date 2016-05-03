@@ -19,8 +19,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class TransactionController {
   private static final String STATUS_OK_RESPONSE_BODY = "{\"status\": \"ok\"}";
 
-  @Autowired
   private TransactionStore transactionStore;
+
+  @Autowired
+  public TransactionController(final TransactionStore transactionStore) {
+    this.transactionStore = transactionStore;
+  }
 
   @RequestMapping(value = "/transaction/{transactionId}", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<Transaction> getTransaction(@PathVariable final Long transactionId) {
@@ -32,7 +36,7 @@ public class TransactionController {
     }
   }
 
-  @RequestMapping(value = "/transaction/{transactionId}", method = RequestMethod.PUT, consumes = APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/transaction/{transactionId}", method = RequestMethod.PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<?> putTransaction(@PathVariable final Long transactionId, @RequestBody Transaction transaction) {
     transaction.setTransactionId(transactionId);
     transactionStore.save(transaction);
